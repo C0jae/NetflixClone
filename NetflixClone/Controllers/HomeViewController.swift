@@ -26,7 +26,7 @@ class HomeViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        homeFeedTable.frame = view.bounds
+        homeFeedTable.frame = view.bounds   // bounds vs frame 차이 알아두기
     }
 }
 

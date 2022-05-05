@@ -43,6 +43,7 @@ class CollectionViewTableViewCell: UITableViewCell {
         fatalError();
     }
     
+    // subView(collectionView)의 레이아웃 설정
     override func layoutSubviews() {
         super.layoutSubviews()
         collectionView.frame = contentView.bounds
@@ -51,6 +52,7 @@ class CollectionViewTableViewCell: UITableViewCell {
 
 extension CollectionViewTableViewCell: UICollectionViewDelegate, UICollectionViewDataSource {
     
+    // cell이라는 클래스의 ui를 설정 => HomeViewController를 통ㅇ해 tableView 각 섹션마다 띄우기
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
         cell.backgroundColor = .green

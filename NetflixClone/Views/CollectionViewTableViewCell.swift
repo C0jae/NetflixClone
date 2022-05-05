@@ -7,21 +7,28 @@
 
 import UIKit
 
+// view라는 도화지에 tableView를 n개만큼(n개의 섹터) 만든 후 하나의 tableView 안에 n개의 collectionView를 만든다.
+
+// 위치치정
+// tableView.frame = view.bounds => collectionView.frame = contentView.bounds
+// view(add UITableView) > contentView(add UICollectionView)
 class CollectionViewTableViewCell: UITableViewCell {
     
     static let identifier = "CollectionViewTableViewCell"
     
     private let collectionView: UICollectionView = {
-        
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width: 140, height: 200)   // 셀의 크기 설정
         layout.scrollDirection = .horizontal    // 스크롤 방향 설정 : 수평
+        
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        // forCellWithReuseIdentifier : 새로운 컬렉션 뷰 셀을 생성하는데 사용할 클래스 이름 설정
         collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
         return collectionView
     }()
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        // super class에서 init키워드로 작성된 것은 꼭 super로 초기화가 필요하다.
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.backgroundColor = .systemPink
         contentView.addSubview(collectionView)
@@ -30,6 +37,8 @@ class CollectionViewTableViewCell: UITableViewCell {
         collectionView.dataSource = self
     }
     
+    // UIView를 상속받아 생성자를 사용하려면 해당 코드가 필요하다
+    // => xib나 스토리보드에서 생성이 될 때에는 해당 코드를 통해서 객체가 생성되기 때문이다.(?)
     required init?(coder: NSCoder) {
         fatalError();
     }
@@ -49,7 +58,7 @@ extension CollectionViewTableViewCell: UICollectionViewDelegate, UICollectionVie
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        // 셀의 갯수
+        // 셀의 갯수(CollectionView의 갯수)
         return 10
     }
     

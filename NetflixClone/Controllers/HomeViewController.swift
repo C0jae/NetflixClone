@@ -11,7 +11,7 @@ class HomeViewController: UIViewController {
     
     // UITableView : 단일 열에 배열된 행을 사용하여 데이터를 표시하는 뷰
     private let homeFeedTable: UITableView = {
-        // style: .grouped => 섹터별로 그룹지어서 표시(다른 섹터와 공간 띄우기)
+        // style: .grouped => 섹션별로 그룹지어서 표시(다른 섹션과 공간 띄우기)
         let table = UITableView(frame: .zero, style: .grouped)
         table.register(CollectionViewTableViewCell.self, forCellReuseIdentifier: CollectionViewTableViewCell.identifier)
         return table
@@ -28,7 +28,9 @@ class HomeViewController: UIViewController {
         homeFeedTable.delegate = self   // self(viewController)에서 homeFeedTable의 기능을 사용
         homeFeedTable.dataSource = self
         
-        homeFeedTable.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 450))
+//        homeFeedTable.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 450))
+        let headerView = HeroHeaderUIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 450))
+        homeFeedTable.tableHeaderView = headerView
     }
     
     override func viewDidLayoutSubviews() {
@@ -64,12 +66,12 @@ class HomeViewController: UIViewController {
 
 extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     
-    // 섹터의 수(없을 경우 하나의 섹터가 기본값)
+    // 섹션의 수(없을 경우 하나의 섹션이 기본값)
     func numberOfSections(in tableView: UITableView) -> Int {
         return 20
     }
     
-    // 한 섹터안에 들어갈 셀의 수
+    // 한 섹션안에 들어갈 셀의 수
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
     }

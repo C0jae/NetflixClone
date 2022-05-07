@@ -16,6 +16,8 @@ class HeroHeaderUIView: UIView {
         // scaleAspectFit : 콘텐츠의 비율을 유지하며 View 크기에 맞게 확장(남는 공간은 투명화)
         // scaleAspectFill : 콘텐츠의 비율을 유지하며 View 크기에 빈 영역이 없을만큼 확장(잘리는 부분 발생할 수 있음)
         imageView.contentMode = .scaleAspectFill
+        // clipsToBounds = true : subView가 view의 경계를 넘어가면 해당 부분은 자른다.
+        // clipsToBounds = false : subview가 view의 경계를 넘어가도 해당 부분을 자르지 않고 포함시킨다.
         imageView.clipsToBounds = true
         imageView.image = UIImage(named: "heroImage")
         return imageView

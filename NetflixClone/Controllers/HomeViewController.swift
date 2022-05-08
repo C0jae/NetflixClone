@@ -29,6 +29,7 @@ class HomeViewController: UIViewController {
         homeFeedTable.dataSource = self
         
 //        homeFeedTable.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 450))
+        // 헤더 이미지 지정 및 크기 설정
         let headerView = HeroHeaderUIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 450))
         homeFeedTable.tableHeaderView = headerView
     }

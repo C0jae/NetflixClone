@@ -50,6 +50,7 @@ class HeroHeaderUIView: UIView {
         // 적용할 색상 부여하기
         gradientLayer.colors = [
             UIColor.clear.cgColor,
+            // 그라데이션 색 지정
             UIColor.systemBackground.cgColor
         ]
         // 틀 맞추기
@@ -59,7 +60,7 @@ class HeroHeaderUIView: UIView {
     
     // playButton의 위치설정
     private func applyConstraints() {
-        let playButtonConstrains = [
+        let playButtonConstraints = [
             // leadingAnchor : 왼쪽기준 간격
             playButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 25),
             
@@ -67,11 +68,12 @@ class HeroHeaderUIView: UIView {
             playButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -25),
             
             // widthAnchor : 테두리 길이
+            // equalTo vs equalToConstant
             playButton.widthAnchor.constraint(equalToConstant: 100)
         ]
         
         // playButtonConstrains 설정 적용
-        NSLayoutConstraint.activate(playButtonConstrains)
+        NSLayoutConstraint.activate(playButtonConstraints)
     }
     
     // 프레임 초기화(?)

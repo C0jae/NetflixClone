@@ -9,6 +9,16 @@ import UIKit
 
 // 1. UIImageView, 2. Button(download, play) 구현
 class HeroHeaderUIView: UIView {
+    private let downloadButoon: UIButton = {
+        let button = UIButton()
+        button.setTitle("Download", for: .normal)
+        button.layer.borderColor = UIColor.white.cgColor
+        button.layer.borderWidth = 1
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.layer.cornerRadius = 5
+        
+        return button
+    }()
     
     private let playButton: UIButton = {
        let button = UIButton()
@@ -25,6 +35,10 @@ class HeroHeaderUIView: UIView {
         // true : 뷰의 크기 고정
         // 기본값이 true이므로 false설정을 해주지 않으면 버튼이 보이지 않는다.(?)
         button.translatesAutoresizingMaskIntoConstraints = false
+        
+        // 테두리 radius 효과 주기
+        button.layer.cornerRadius = 5
+        
         return button
     }()
     
@@ -46,6 +60,7 @@ class HeroHeaderUIView: UIView {
     
     // 그라데이션 효과주기(?)
     private func addGradient() {
+        // CAGradientLayer() : Background color 위에 Color gradient를 그려 layer의 shape을 채우는 layer
         let gradientLayer = CAGradientLayer()
         
         // 적용할 색상 부여하기
@@ -66,17 +81,24 @@ class HeroHeaderUIView: UIView {
             // equalToConstant => 자기 자신의 기준으로 부터(?)
             
             // leadingAnchor : 왼쪽기준 간격
-            playButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 25),
+            playButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 70),
             
             // bottomAnchor : 아래쪽 기준 간격(+ : 밑으로, - : 위로)
-            playButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -25),
+            playButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -50),
             
             // widthAnchor : 테두리 길이
-            playButton.widthAnchor.constraint(equalToConstant: 100)
+            playButton.widthAnchor.constraint(equalToConstant: 120)
+        ]
+        
+        let downloadButtonConstraints = [
+            downloadButoon.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -70),
+            downloadButoon.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -50),
+            downloadButoon.widthAnchor.constraint(equalToConstant: 120)
         ]
         
         // playButtonConstrains 설정 적용
         NSLayoutConstraint.activate(playButtonConstraints)
+        NSLayoutConstraint.activate(downloadButtonConstraints)
     }
     
     // 프레임 초기화(?)
@@ -86,6 +108,7 @@ class HeroHeaderUIView: UIView {
         addGradient()
         
         addSubview(playButton)
+        addSubview(downloadButoon)
         applyConstraints()
     }
     

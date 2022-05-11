@@ -23,6 +23,7 @@ class HeroHeaderUIView: UIView {
         
         // 뷰의 Autoresizing mask를 Auto Layout constarints로 바꿀지 말지를 결정하는 Boolean 값
         // true : 뷰의 크기 고정
+        // 기본값이 true이므로 false설정을 해주지 않으면 버튼이 보이지 않는다.(?)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -61,6 +62,9 @@ class HeroHeaderUIView: UIView {
     // playButton의 위치설정
     private func applyConstraints() {
         let playButtonConstraints = [
+            // equalTo : constant => 특정한 기준으로 부터의 거리 설정
+            // equalToConstant => 자기 자신의 기준으로 부터(?)
+            
             // leadingAnchor : 왼쪽기준 간격
             playButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 25),
             
@@ -68,7 +72,6 @@ class HeroHeaderUIView: UIView {
             playButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -25),
             
             // widthAnchor : 테두리 길이
-            // equalTo vs equalToConstant
             playButton.widthAnchor.constraint(equalToConstant: 100)
         ]
         
@@ -81,6 +84,7 @@ class HeroHeaderUIView: UIView {
         super.init(frame: frame)
         addSubview(heroImageView)
         addGradient()
+        
         addSubview(playButton)
         applyConstraints()
     }

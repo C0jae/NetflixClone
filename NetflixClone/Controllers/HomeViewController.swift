@@ -16,6 +16,8 @@ class HomeViewController: UIViewController {
         table.register(CollectionViewTableViewCell.self, forCellReuseIdentifier: CollectionViewTableViewCell.identifier)
         return table
     }()
+    
+    let sectionTitle: [String] = ["Trending Movies", "Popular", "Trending Tv", "Upcoming Movies", "Top rated"]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,6 +40,8 @@ class HomeViewController: UIViewController {
     
     private func configureNavbar() {
         var image = UIImage(named: "netflixLogo")
+        
+        // withRenderingMode(.alwaysOriginal) : 이미지가 파란색 배경이 아닌 원본 그대로 보이게 설정
         image = image?.withRenderingMode(.alwaysOriginal)
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: image, style: .done, target: self, action: nil)
         
@@ -45,6 +49,9 @@ class HomeViewController: UIViewController {
             UIBarButtonItem(image: UIImage(systemName: "person"), style: .done, target: self, action: nil),
             UIBarButtonItem(image: UIImage(systemName: "play.rectangle"), style: .done, target: self, action: nil)
         ]
+        
+        // 색 지정이 없는곳은 색 지정
+        navigationController?.navigationBar.tintColor = .white
     }
     
     override func viewDidLayoutSubviews() {
@@ -82,7 +89,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     
     // 섹션의 수(없을 경우 하나의 섹션이 기본값)
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 20
+        return sectionTitle.count
     }
     
     // 한 섹션안에 들어갈 셀의 수
@@ -106,5 +113,28 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         return 40
     }
     
+    // 섹션마다 타이틀(제목) 달기
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return sectionTitle[section]
+    }
     
+    // 섹션 제목에 효과 부여(크기, 폰트 색, 위치 등)
+    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        guard let header = view as? UITableViewHeaderFooterView else { return }
+        header.textLabel?.font = .systemFont(ofSize: 18, weight: .semibold)
+        
+        // CGPoint : x, y좌표값
+        // CGSize : 높이, 너비값 => but 사각형은 아님(좌표값이 없기때문)
+        // CGRect : CGPoint + CGSize => 사각형 => iOS에서는 좌표값과 높이, 너비값이 모두 존재해야 사각형으로 나타낼 수 있다.
+        header.textLabel?.frame = CGRect(x: header.bounds.origin.x, y: header.bounds.origin.y, width: 100, height: header.bounds.height)
+        header.textLabel?.textColor = .white
+        header.textLabel?.text = header.textLabel?.text?.lowercased()
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let defaultOffset = view.safeAreaInsets.top
+        let offset = scrollView.contentOffset.y + defaultOffset
+        
+        navigationController?.navigationBar.transform = .init(translationX: 0, y: min(0, -offset))
+    }
 }

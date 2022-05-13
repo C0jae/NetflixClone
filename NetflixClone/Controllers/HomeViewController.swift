@@ -11,7 +11,7 @@ class HomeViewController: UIViewController {
     
     // UITableView : 단일 열에 배열된 행을 사용하여 데이터를 표시하는 뷰
     private let homeFeedTable: UITableView = {
-        // style: .grouped => 섹션별로 그룹지어서 표시(다른 섹션과 공간 띄우기)
+        // style: .grouped => 헤더를 내릴때 다른 셀들과 같이 스크롤 됨 / 기본값 : .plain (스크롤 해도 헤더가 고정)
         let table = UITableView(frame: .zero, style: .grouped)
         table.register(CollectionViewTableViewCell.self, forCellReuseIdentifier: CollectionViewTableViewCell.identifier)
         return table

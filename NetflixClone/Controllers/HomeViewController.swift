@@ -8,6 +8,7 @@
 import UIKit
 
 class HomeViewController: UIViewController {
+    let sectionTitle: [String] = ["Trending Movies", "Trending Tv", "Popular", "Upcoming Movies", "Top rated"]
     
     // UITableView : 단일 열에 배열된 행을 사용하여 데이터를 표시하는 뷰
     private let homeFeedTable: UITableView = {
@@ -16,27 +17,6 @@ class HomeViewController: UIViewController {
         table.register(CollectionViewTableViewCell.self, forCellReuseIdentifier: CollectionViewTableViewCell.identifier)
         return table
     }()
-    
-    let sectionTitle: [String] = ["Trending Movies", "Popular", "Trending Tv", "Upcoming Movies", "Top rated"]
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view.backgroundColor = .systemBackground
-        view.addSubview(homeFeedTable)
-        
-        // delegate
-        //  객체 프로그래밍에 있어 하나의 객체가 모든 일을 처리하는게 아니라 처리하는 부분만 떼어내어
-        //  따로 객체로 만들어주고 그걸 넘기는(위임: Delegate)방법
-        homeFeedTable.delegate = self   // self(viewController)에서 homeFeedTable의 기능을 사용
-        homeFeedTable.dataSource = self
-        
-        configureNavbar()
-        
-//        homeFeedTable.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 450))
-        // 헤더 이미지 지정 및 크기 설정
-        let headerView = HeroHeaderUIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 500))
-        homeFeedTable.tableHeaderView = headerView
-    }
     
     private func configureNavbar() {
         var image = UIImage(named: "netflixLogo")
@@ -52,6 +32,43 @@ class HomeViewController: UIViewController {
         
         // 색 지정이 없는곳은 색 지정
         navigationController?.navigationBar.tintColor = .white
+    }
+    
+    private func getTrendingMovies() {
+//        APICaller.shared.getTrendingMovies { _ in
+//
+//        }
+        
+        APICaller.shared.getTrendingMovies { results in
+            switch results{
+                
+            case .success(let movies):
+                print(movies)
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = .systemBackground
+        view.addSubview(homeFeedTable)
+        
+        // delegate
+        //  객체 프로그래밍에 있어 하나의 객체가 모든 일을 처리하는게 아니라 처리하는 부분만 떼어내어
+        //  따로 객체로 만들어주고 그걸 넘기는(위임: Delegate)방법
+        homeFeedTable.delegate = self   // self(viewController)에서 homeFeedTable의 기능을 사용
+        homeFeedTable.dataSource = self
+        
+        configureNavbar()
+        getTrendingMovies()
+        
+//        homeFeedTable.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 450))
+        // 헤더 이미지 지정 및 크기 설정
+        let headerView = HeroHeaderUIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 500))
+        homeFeedTable.tableHeaderView = headerView
     }
     
     override func viewDidLayoutSubviews() {
@@ -128,7 +145,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         // CGRect : CGPoint + CGSize => 사각형 => iOS에서는 좌표값과 높이, 너비값이 모두 존재해야 사각형으로 나타낼 수 있다.
         header.textLabel?.frame = CGRect(x: header.bounds.origin.x, y: header.bounds.origin.y, width: 100, height: header.bounds.height)
         header.textLabel?.textColor = .white
-        header.textLabel?.text = header.textLabel?.text?.lowercased()
+        header.textLabel?.text = header.textLabel?.text?.capitalizeFirstLetter()
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

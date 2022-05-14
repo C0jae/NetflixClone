@@ -13,7 +13,7 @@ enum APIError: Error {
 
 struct Constants{
     static let API_KEY = "ee672411b942ea94c75a6f4cb4a2b19f"
-    static let baseURL = "https://api.themoviedb.org/"
+    static let baseURL = "https://api.themoviedb.org"
 }
 
 class APICaller {
@@ -25,6 +25,7 @@ class APICaller {
     func getTrendingMovies(completion: @escaping (Result<[Movie], Error>) -> Void) {
         guard let url = URL(string: "\(Constants.baseURL)/3/trending/all/day?api_key=\(Constants.API_KEY)") else { return }
         
+        // URLSession : Http/Https를 통해 데이터를 주고받는 API를 제공하는 클래스
         let task = URLSession.shared.dataTask(with: URLRequest(url: url)) { data, _, error in
             guard let data = data, error == nil else { return }
             
@@ -35,7 +36,8 @@ class APICaller {
                 
                 // Models -> Movie에 해당 변수 선언 후 results 재지정(api의 전체정보 불러오기)
                 let results = try JSONDecoder().decode(TrendingMoviesResponse.self, from: data)
-//                print(results)
+                // print(results)
+                // results.results = TrendingMoviesResponse.results
                 completion(.success(results.results))
                 
             } catch {
@@ -43,6 +45,7 @@ class APICaller {
                 completion(.failure(error))
             }
         }
+        // resume 메소드를 반드시 호출해서 실행해야 한다. => 그러지 않을경우 데이터를 가져오지 않는다.
         task.resume()
     }
 }

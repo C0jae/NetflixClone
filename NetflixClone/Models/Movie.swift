@@ -8,6 +8,7 @@
 import Foundation
 
 struct TrendingMoviesResponse: Codable {
+    // api정보에 results라는 이름을 따라서 변수 설정
     let results: [Movie]
 }
 

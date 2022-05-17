@@ -34,18 +34,23 @@ class HomeViewController: UIViewController {
         navigationController?.navigationBar.tintColor = .white
     }
     
-    private func getTrendingMovies() {
+//    private func getTrendingMovies() {
+    private func fetchData() {
 //        APICaller.shared.getTrendingMovies { _ in
 //
 //        }
         
-        APICaller.shared.getTrendingMovies { results in
-            switch results{
-            case .success(let movies):
-                print(movies)
-            case .failure(let error):
-                print(error)
-            }
+//        APICaller.shared.getTrendingMovies { results in
+//            switch results{
+//            case .success(let movies):
+//                print(movies)
+//            case .failure(let error):
+//                print(error)
+//            }
+//        }
+        
+        APICaller.shared.getTrendingTvs { results in
+            //
         }
     }
     
@@ -62,7 +67,7 @@ class HomeViewController: UIViewController {
         homeFeedTable.dataSource = self
         
         configureNavbar()
-        getTrendingMovies()
+        fetchData()
         
 //        homeFeedTable.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 450))
         // 헤더 이미지 지정 및 크기 설정

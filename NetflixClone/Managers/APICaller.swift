@@ -23,7 +23,8 @@ class APICaller {
     
     // escaping 클로저 : 인자로 전달된 클로저가 함수의 밖의 변수에 저장되거나 함수가 종료된 뒤 실행되는 클로저
     func getTrendingMovies(completion: @escaping (Result<[Movie], Error>) -> Void) {
-        guard let url = URL(string: "\(Constants.baseURL)/3/trending/all/day?api_key=\(Constants.API_KEY)") else { return }
+//        guard let url = URL(string: "\(Constants.baseURL)/3/trending/all/day?api_key=\(Constants.API_KEY)") else { return }
+        guard let url = URL(string: "\(Constants.baseURL)/3/trending/movie/day?api_key=\(Constants.API_KEY)") else { return }
         
         // URLSession : Http/Https를 통해 데이터를 주고받는 API를 제공하는 클래스
         let task = URLSession.shared.dataTask(with: URLRequest(url: url)) { data, _, error in
@@ -46,6 +47,22 @@ class APICaller {
             }
         }
         // resume 메소드를 반드시 호출해서 실행해야 한다. => 그러지 않을경우 데이터를 가져오지 않는다.
+        task.resume()
+    }
+    
+    func getTrendingTvs(comletion: @escaping (Result<String, Error>) -> Void) {
+        guard let url = URL(string: "\(Constants.baseURL)/3/trending/movie/day?api_key=\(Constants.API_KEY)") else { return }
+        
+        let task = URLSession.shared.dataTask(with: URLRequest(url: url)) { data, _, error in
+            guard let data = data, error == nil else { return }
+            
+            do {
+                let results = try JSONDecoder().decode(TrendingTvResponse.self, from: data)
+                print(results)
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
         task.resume()
     }
 }

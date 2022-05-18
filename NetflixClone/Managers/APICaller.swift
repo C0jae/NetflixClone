@@ -86,5 +86,36 @@ class APICaller {
     }
     
     // popular
-    // torated
+    func getPopular(comletion: @escaping (Result<[Movie], Error>) -> Void) {
+        guard let url = URL(string: "\(Constants.baseURL)/3/movie/popular?api_key=\(Constants.API_KEY)&language=en-US&page=1") else { return }
+        
+        let task = URLSession.shared.dataTask(with: URLRequest(url: url)) { data, _, error in
+            guard let data = data, error == nil else { return }
+            
+            do {
+                let results = try JSONDecoder().decode(TrendingMoviesResponse.self, from: data)
+                print(results)
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
+        task.resume()
+    }
+    
+    // toratedf
+    func getTopRated(completion: @escaping (Result<[Movie], Error>) -> Void) {
+        guard let url = URL(string: "\(Constants.baseURL)/3/movie/top_rated?api_key=\(Constants.API_KEY)&language=en-US&page=1") else { return }
+        
+        let task = URLSession.shared.dataTask(with: URLRequest(url: url)) { data, _, error in
+            guard let data = data, error == nil else { return }
+            
+            do {
+                let results = try JSONDecoder().decode(TrendingMoviesResponse.self, from: data)
+                print(results)
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
+        task.resume()
+    }
 }

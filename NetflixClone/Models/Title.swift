@@ -7,12 +7,12 @@
 
 import Foundation
 
-struct TrendingMoviesResponse: Codable {
+struct TrendingTitleResponse: Codable {
     // api정보에 results라는 이름을 따라서 변수 설정
-    let results: [Movie]
+    let results: [Title]
 }
 
-struct Movie: Codable {
+struct Title: Codable {
     let id: Int
     let media_type: String?
     let original_name: String?

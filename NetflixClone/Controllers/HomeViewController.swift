@@ -7,6 +7,14 @@
 
 import UIKit
 
+enum Section: Int {
+    case TrendingMovies = 0
+    case TrendingTv = 1
+    case Popular = 2
+    case Upcoming = 3
+    case TopRated = 4
+}
+
 class HomeViewController: UIViewController {
     let sectionTitle: [String] = ["Trending Movies", "Trending Tv", "Popular", "Upcoming Movies", "Top rated"]
     
@@ -35,7 +43,7 @@ class HomeViewController: UIViewController {
     }
     
 //    private func getTrendingMovies() {
-    private func fetchData() {
+//    private func fetchData() {
 //        APICaller.shared.getTrendingMovies { _ in
 //
 //        }
@@ -61,10 +69,10 @@ class HomeViewController: UIViewController {
 //
 //        }
         
-        APICaller.shared.getTopRated { _ in
-
-        }
-    }
+//        APICaller.shared.getTopRated { _ in
+//
+//        }
+//    }
     
 
     override func viewDidLoad() {
@@ -79,7 +87,7 @@ class HomeViewController: UIViewController {
         homeFeedTable.dataSource = self
         
         configureNavbar()
-        fetchData()
+//        fetchData()
         
 //        homeFeedTable.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 450))
         // 헤더 이미지 지정 및 크기 설정
@@ -131,8 +139,61 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: CollectionViewTableViewCell.identifier, for: indexPath) as? CollectionViewTableViewCell else {
-                return UITableViewCell()
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: CollectionViewTableViewCell.identifier, for: indexPath) as? CollectionViewTableViewCell else { return UITableViewCell() }
+        
+        switch indexPath.section {
+        case Section.TrendingMovies.rawValue:
+            APICaller.shared.getTrendingMovies { results in
+                switch results {
+                case .success(let titles):
+                    cell.configure(with: titles)
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+            }
+            
+        case Section.TrendingTv.rawValue:
+            APICaller.shared.getTrendingTvs { results in
+                switch results {
+                case .success(let titles):
+                    cell.configure(with: titles)
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+            }
+            
+        case Section.Popular.rawValue:
+            APICaller.shared.getPopular { results in
+                switch results {
+                case .success(let titles):
+                    cell.configure(with: titles)
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+            }
+            
+        case Section.Upcoming.rawValue:
+            APICaller.shared.getUpcomingMovies { results in
+                switch results {
+                case .success(let titles):
+                    cell.configure(with: titles)
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+            }
+            
+        case Section.TopRated.rawValue:
+            APICaller.shared.getTopRated { results in
+                switch results {
+                case .success(let titles):
+                    cell.configure(with: titles)
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+            }
+            
+        default:
+            return UITableViewCell()
         }
         return cell
     }

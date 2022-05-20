@@ -53,6 +53,7 @@ class CollectionViewTableViewCell: UITableViewCell {
     
     public func configure(with titles: [Title]) {
         self.titles = titles
+        // 비동기 처리
         DispatchQueue.main.async { [weak self] in
             self?.collectionView.reloadData()
         }

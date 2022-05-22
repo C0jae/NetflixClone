@@ -18,6 +18,7 @@ class UpcomingViewController: UIViewController {
     
     // Upcoming API 호출
     private func fetchUpcoming() {
+        // weak self??
         APICaller.shared.getUpcomingMovies { [weak self] results in
             switch results {
             case .success(let titles):

@@ -27,6 +27,7 @@ class TitleTableViewCell: UITableViewCell {
     
     private let playButton: UIButton = {
         let button = UIButton()
+        // UIImage.SymbolConfiguration = UIImage 사이즈 설정
         let image = UIImage(systemName: "play.circle", withConfiguration: UIImage.SymbolConfiguration(pointSize: 30))
         button.setImage(image, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false

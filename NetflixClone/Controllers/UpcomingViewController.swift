@@ -16,6 +16,7 @@ class UpcomingViewController: UIViewController {
         return table
     }()
     
+    // Upcoming API 호출
     private func fetchUpcoming() {
         APICaller.shared.getUpcomingMovies { [weak self] results in
             switch results {
@@ -35,9 +36,10 @@ class UpcomingViewController: UIViewController {
         view.backgroundColor = .systemBackground
         title = "Upcoming"
         
-        // preferLargeTitles = true => 타이틀을 중앙으로 이동
+        // preferLargeTitles = true => 타이틀을 중앙에서 좌측 상단으로 이동, 스크롤 내리면 가운데로 이동
+        // largeTitle 켜기
         navigationController?.navigationBar.prefersLargeTitles = true
-        // .always 타이틀 다시 원래자리로 복귀
+        // 하위뷰에 largeTitle 활성화
         navigationController?.navigationItem.largeTitleDisplayMode = .always
         
         view.addSubview(upcomingTable)

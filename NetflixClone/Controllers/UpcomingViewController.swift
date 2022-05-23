@@ -23,6 +23,7 @@ class UpcomingViewController: UIViewController {
             switch results {
             case .success(let titles):
                 self?.titles = titles
+                // 비동기처리
                 DispatchQueue.main.async {
                     self?.upcomingTable.reloadData()
                 }
@@ -61,6 +62,7 @@ extension UpcomingViewController: UITableViewDelegate, UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: TitleTableViewCell.identifier, for: indexPath) as? TitleTableViewCell else { return UITableViewCell() }
         
         let title = titles[indexPath.row]
+        // a ?? b ?? c => a가 없으면 b, b도 없으면 c적용
         cell.configure(with: TitleViewModel(titleName: title.original_title ?? title.original_name ?? "Unknown title name", posterURL: title.poster_path ?? "Unknown poster path"))
         return cell
     }

@@ -35,6 +35,7 @@ class TitleTableViewCell: UITableViewCell {
         return button
     }()
     
+    // 위치설정(각각 기준이 되는 view를 설정하여 해당 view 기준으로 방향 및 거리설정)
     private func applyConstraints() {
         let titlePosterUIImageViewConstraints = [
             titlePosterUIImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),

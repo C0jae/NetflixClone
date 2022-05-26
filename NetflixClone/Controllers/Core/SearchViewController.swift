@@ -17,6 +17,13 @@ class SearchViewController: UIViewController {
         return table
     }()
     
+    private let searchController: UISearchController = {
+        let controller = UISearchController(searchResultsController: SearchResultsViewController())
+        controller.searchBar.placeholder = "Search for a Movie or a Tv show"
+        controller.searchBar.searchBarStyle = .minimal
+        return controller
+    }()
+    
     private func fetchDiscoverMovies() {
         APICaller.shared.getDiscoverMovies { [weak self] result in
             switch result {
@@ -42,7 +49,13 @@ class SearchViewController: UIViewController {
         
         view.addSubview(discoverTable)
         
+        navigationItem.searchController = searchController
+        navigationController?.navigationBar.tintColor = .white
+        
         fetchDiscoverMovies()
+        
+        // 검색결과 실시간 업데이트
+        searchController.searchResultsUpdater = self
         
         discoverTable.delegate = self
         discoverTable.dataSource = self
@@ -72,5 +85,29 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 140
+    }
+}
+
+extension SearchViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        let searchBar = searchController.searchBar
+        
+        guard let query = searchBar.text,
+              // trimingCharacters(in: a) => 양쪽끝에 있는 a라는 문자(String불가) 제거
+              !query.trimmingCharacters(in: .whitespaces).isEmpty,   // 양 끝에 공백을 제거후 비어있지 않다면,
+              query.trimmingCharacters(in: .whitespaces).count >= 3, // 최소 3글자 이상
+              let resultConstroller = searchController.searchResultsController as? SearchResultsViewController else { return }
+        
+        APICaller.shared.search(with: query) { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let titles):
+                    resultConstroller.titles = titles
+                    resultConstroller.searchResultsCollectionView.reloadData()
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+            }
+        }
     }
 }

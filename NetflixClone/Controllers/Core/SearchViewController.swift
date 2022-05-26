@@ -99,6 +99,8 @@ extension SearchViewController: UISearchResultsUpdating {
               let resultConstroller = searchController.searchResultsController as? SearchResultsViewController else { return }
         
         APICaller.shared.search(with: query) { result in
+            // [weak self] 없는이유?
+            // 비동기처리에 switch 들어가는 구문 vs switch .success에 비동기처리가 들어가는 구문
             DispatchQueue.main.async {
                 switch result {
                 case .success(let titles):

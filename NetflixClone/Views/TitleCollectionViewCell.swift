@@ -8,6 +8,9 @@
 import UIKit
 import SDWebImage
 
+// SDWebImage : url 방식으로 이미지를 받아오는 것을 비동기적으로 처리하고 받아온 이미지를 캐싱하여 사용할 수 있게 해주는 라이브러리
+// url방식으로 받아오면서 발생하는 속도문제 해결 가능
+
 class TitleCollectionViewCell: UICollectionViewCell {
     static let identifier = "TitleCollectionViewCell"
     

@@ -20,6 +20,7 @@ class SearchViewController: UIViewController {
     private let searchController: UISearchController = {
         let controller = UISearchController(searchResultsController: SearchResultsViewController())
         controller.searchBar.placeholder = "Search for a Movie or a Tv show"
+        // searchBarStyle : 검색바 주변 배경 설정 => .minimal : 배경없음
         controller.searchBar.searchBarStyle = .minimal
         return controller
     }()
